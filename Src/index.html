@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+<title>브라우저에서 m3u8 확장자를 가진 영상을 재생하기</title>
+</head>
+
+<body>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<video id="video"></video>
+<script>
+
+if(Hls.isSupported()) {
+    var video = document.getElementById('video');
+    var hls = new Hls();
+    hls.loadSource('http://59.8.86.15:1935/live/52.stream/playlist.m3u8'); // 동영상경로
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.muted = true
+        video.play();
+    });
+}
+
+// hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+// When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+// This is using the built-in support of the plain video element, without using hls.js.
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'http://59.8.86.15:1935/live/52.stream/playlist.m3u8'; // 동영상경로
+    video.addEventListener('canplay',function() {
+        video.play();
+    });
+}
+
+</script>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <title>Camera Streaming</title>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="./index.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.20.1/video-js.min.css"
+    integrity="sha512-D/n19dhr+LY8HOoGuybX+bJYsZOFKb0r7YpAWBMPg5Hnke6lxdHl6q21d7qiwIsMgdSnBG9pSMQlwTtZ+6ISmw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.20.1/video.min.js"
+    integrity="sha512-xT61DWoPRoAa4ir+LqER5L4/zzuO5tQOQywZYqU8BaZVqolq78bRobozDxozcCZ6tmo92zetGVQHRp+sQHIi/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  
+  <body style="background-color: #111;" oncontextmenu="return false;" >
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    <br />
+    <video id="camera"  class="video-js" >
+      <source src="https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8" type="application/x-mpegURL">
+    </video>
+        
+    <script type="application/javascript" src="./dist/index.bundle.js"></script>
+  </body>  
+</html> -->
